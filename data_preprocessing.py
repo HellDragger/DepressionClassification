@@ -18,6 +18,9 @@ print(data.head())
 print("Missing values in the dataset:")
 print(data.isna().sum())
 
+# Load stopwords once; looking them up per token makes preprocessing take minutes
+stop_words = set(stopwords.words('english'))
+
 # Data Preprocessing function
 def preprocess_text(text):
     # Convert text to lowercase
@@ -28,7 +31,7 @@ def preprocess_text(text):
     
     # Remove punctuation and stopwords
     tokens = [word for word in tokens if word.isalpha()]  # Remove punctuation
-    tokens = [word for word in tokens if word not in stopwords.words('english')]  # Remove stopwords
+    tokens = [word for word in tokens if word not in stop_words]  # Remove stopwords
     
     # Join the cleaned tokens back into a string
     return ' '.join(tokens)
