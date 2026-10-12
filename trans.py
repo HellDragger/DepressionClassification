@@ -43,6 +43,9 @@ def translate_text(texts, model, tokenizer, batch_size=10, max_length=512):
 # You can replace this with your actual dataset
 df = pd.read_csv("dataset/Depression_train.csv")  # Replace with your dataset path
 
+# Only translate a sample so the translated column matches the number of rows
+df = df.head(1000).copy()
+
 # Show the first few rows of the dataset
 print("Original Dataset:\n", df.head())
 
@@ -50,7 +53,7 @@ print("Original Dataset:\n", df.head())
 df['preprocessed_text'] = df['text'].apply(preprocess_text)
 
 # Translate the preprocessed 'text' column from English to French
-df['translated_text'] = translate_text((df['preprocessed_text'].head(1000)).tolist(), model, tokenizer, batch_size=10)
+df['translated_text'] = translate_text(df['preprocessed_text'].tolist(), model, tokenizer, batch_size=10)
 
 # Show the first few rows of the preprocessed and translated dataset
 print("\nPreprocessed and Translated Dataset:\n", df[['text', 'preprocessed_text', 'translated_text']].head())

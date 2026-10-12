@@ -55,14 +55,12 @@ Run every script from the repository root, because each one reads `dataset/Depre
 
 ```bash
 python depression_classification.py   # train + evaluate (~12 s)
-python data_preprocessing.py          # inspect + tokenize (~10 min, see below)
+python data_preprocessing.py          # inspect + tokenize (~6 s)
 python trans.py                       # EN→FR translation of 1,000 posts (downloads ~300 MB model)
 ```
 
 ## Known issues
 
-- **`trans.py` crashes after translating.** It assigns 1,000 translations to a column of all 27,977 rows, so pandas raises `ValueError: Length of values (1000) does not match length of index (27977)`. All of the translation work is lost and `translated_dataset.csv` is never written. Fix: translate a 1,000-row slice (`df = df.head(1000)`) before assigning.
-- **`data_preprocessing.py` is slow (about 9.5 minutes).** It calls `stopwords.words('english')` once for every token instead of building a `set` once. Hoisting it out of the loop cuts the runtime to seconds.
 - **Preprocessing is largely redundant.** The dataset is already cleaned, so lowercasing and punctuation stripping change almost nothing. In practice, the preprocessing steps only remove leftover stopwords and single-letter words.
 - **Dependencies are unpinned** in `requirements.txt`.
 
