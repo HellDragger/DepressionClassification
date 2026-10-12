@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+.venv/
+nlp_venv/
+.DS_Store
+translated_dataset.csv
